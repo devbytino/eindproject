@@ -24,11 +24,13 @@ async function getEarthquakes() {
 
       const drawMarker = (magnitude) => {
         if (magnitude < 1.5) {
-          return {radius: 5, color: '#60b84a'};
+          return {radius: 3, color: '#60b84a'};
         } else if (magnitude < 5) {
-          return {radius: 8, color: '#edbb5d'};
+          return {radius: 5, color: '#edbb5d'};
+        } else if (magnitude < 7) {
+          return {radius: 8, color: '#ed5d31'};
         } else {
-          return {radius: 10, color: '#ed5d31'};
+          return {radius: 10, color: '#ed3131'};
         }
       }
 
