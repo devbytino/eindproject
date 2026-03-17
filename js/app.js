@@ -1,7 +1,7 @@
 const map = L.map('map', {
   center: [20, 0],
   zoom: 2,
-  minZoom: 2  // 👈 add this
+  minZoom: 2  // min zoom level to limit the amount
 });
 const lightTiles = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const darkTiles = "https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png";
@@ -49,7 +49,7 @@ async function getEarthquakes() {
         console.log(feature);
       }
       const list = document.getElementById('earthquake-list');
-      list.innerHTML = ''; // Clear old items before re-adding (important for auto-refresh!)
+      list.innerHTML = ''; // Clear old items before re-adding
 
       data.features.forEach(quake => {
         const mag = quake.properties.mag;
