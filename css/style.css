@@ -133,6 +133,10 @@ header button {
   font-weight: 700;
 }
 
+label {
+  font-family: Iosevka Charon Mono, monospace;
+  margin-bottom: 0.5rem;
+}
 .content {
   padding: 0 2rem;
 }

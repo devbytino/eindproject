@@ -43,6 +43,15 @@
 <section>
   <div class="content container">
     <h2>Earthquakes in the last 24hrs</h2>
+    <label for="filterByMag">Filter by magnitude:</label>
+    <select id="filterByMag" name="magnitude-filter">
+      <option value="all">All</option>
+      <option value="5+">5+ mag</option>
+      <option value="4+">4+ mag</option>
+      <option value="3+">3+ mag</option>
+      <option value="2+">2+ mag</option>
+      <option value="1+">1+ mag</option>
+    </select>
     <ul id="earthquake-list">
     </ul>
   </div>
