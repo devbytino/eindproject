@@ -55,9 +55,15 @@ async function getEarthquakes() {
         const mag = quake.properties.mag;
         const place = quake.properties.place;
         const time = new Date(quake.properties.time).toLocaleTimeString();
+        const url = quake.properties.url;
 
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.textContent = 'View Details';
         const li = document.createElement('li');
         li.textContent = `Magnitude ${mag} — ${place} at ${time}`;
+        li.appendChild(a);
         list.appendChild(li);
       });
     } else {
