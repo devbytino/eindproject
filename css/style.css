@@ -136,6 +136,10 @@ header button {
 label {
   font-family: Iosevka Charon Mono, monospace;
   margin-bottom: 0.5rem;
+  max-width: 500px;
+}
+select {
+  max-width: 500px;
 }
 .content {
   padding: 0 2rem;
@@ -156,6 +160,7 @@ label {
   font-family: Iosevka Charon Mono, monospace;
   border: 1px solid #ccc;
   padding: 1rem;
+  max-width: 600px;
 }
 .content li a {
   text-decoration: none;
