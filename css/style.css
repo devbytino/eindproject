@@ -117,7 +117,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem 2rem 0 2rem;
 }
 
 header h1 {
@@ -133,6 +133,35 @@ header button {
   font-weight: 700;
 }
 
+.content {
+  padding: 0 2rem;
+}
+
+.content h2 {
+  font-family: var(--main-font), serif;
+  font-weight: 700;
+}
+
+.content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.content li {
+  margin-bottom: 1rem;
+  font-family: Iosevka Charon Mono, monospace;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.content li a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */

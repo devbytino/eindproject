@@ -1,4 +1,8 @@
-const map = L.map('map').setView([20, 0], 2);
+const map = L.map('map', {
+  center: [20, 0],
+  zoom: 2,
+  minZoom: 2  // 👈 add this
+});
 const lightTiles = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const darkTiles = "https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png";
 
@@ -44,6 +48,18 @@ async function getEarthquakes() {
 
         console.log(feature);
       }
+      const list = document.getElementById('earthquake-list');
+      list.innerHTML = ''; // Clear old items before re-adding (important for auto-refresh!)
+
+      data.features.forEach(quake => {
+        const mag = quake.properties.mag;
+        const place = quake.properties.place;
+        const time = new Date(quake.properties.time).toLocaleTimeString();
+
+        const li = document.createElement('li');
+        li.textContent = `Magnitude ${mag} — ${place} at ${time}`;
+        list.appendChild(li);
+      });
     } else {
       throw new Error('Failed to fetch data');
     }
