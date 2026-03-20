@@ -8,64 +8,90 @@ const darkTiles = "https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/{z}
 
 let currentTileLayer = L.tileLayer(lightTiles).addTo(map);
 let isDark = false;
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+let earthquakeData = null; // Store fetched earthquake data
+let earthquakeMarkers = L.layerGroup().addTo(map); // Group to manage markers
+let displayedCount = 10; // Initial number of items to show
+
+// Set initial tile layers with attribution
+L.tileLayer(lightTiles, {
   attribution: '© OpenStreetMap contributors',
 }).addTo(map);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  minZoom: 0.75,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+// Function to determine marker style based on magnitude
+const drawMarker = (magnitude) => {
+  if (magnitude < 1.5) {
+    return {radius: 3, color: '#60b84a'};
+  } else if (magnitude < 5) {
+    return {radius: 5, color: '#edbb5d'};
+  } else if (magnitude < 7) {
+    return {radius: 8, color: '#ed5d31'};
+  } else {
+    return {radius: 10, color: '#ed3131'};
+  }
+}
 
+// Function to render markers and list based on selected filter
+function renderEarthquakes(filterValue) {
+  if (!earthquakeData) return;
+
+  const list = document.getElementById('earthquake-list');
+  list.innerHTML = ''; // Clear old list items
+  earthquakeMarkers.clearLayers(); // Clear old markers from map
+
+  // Filter features based on magnitude
+  const filteredFeatures = earthquakeData.features.filter(feature => {
+    if (filterValue === 'all') return true;
+    const minMag = parseInt(filterValue);
+    return feature.properties.mag >= minMag;
+  });
+
+  filteredFeatures.forEach((feature, index) => {
+    let latitude = feature.geometry.coordinates[1];
+    let longitude = feature.geometry.coordinates[0];
+    let magnitude = feature.properties.mag;
+    let info = feature.properties.title;
+
+    // Add circle markers to map group (all filtered markers on map)
+    L.circleMarker([latitude, longitude], drawMarker(magnitude))
+      .addTo(earthquakeMarkers)
+      .bindPopup(info);
+
+    // Only add to the list if within the displayedCount
+    if (index < displayedCount) {
+      // Create list item and link for each earthquake
+      const mag = feature.properties.mag;
+      const place = feature.properties.place;
+      const time = new Date(feature.properties.time).toLocaleTimeString();
+      const url = feature.properties.url;
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.textContent = 'View Details';
+      const li = document.createElement('li');
+      li.textContent = `Magnitude ${mag} — ${place} at ${time} `;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  });
+
+  // Show or hide "Show More" button
+  const showMoreBtn = document.getElementById('show-more-btn');
+  if (filteredFeatures.length > displayedCount) {
+    showMoreBtn.style.display = 'block';
+  } else {
+    showMoreBtn.style.display = 'none';
+  }
+}
 
 // Get data from USGS on earthquakes
 async function getEarthquakes() {
   try {
     const response = await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson');
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-
-      const drawMarker = (magnitude) => {
-        if (magnitude < 1.5) {
-          return {radius: 3, color: '#60b84a'};
-        } else if (magnitude < 5) {
-          return {radius: 5, color: '#edbb5d'};
-        } else if (magnitude < 7) {
-          return {radius: 8, color: '#ed5d31'};
-        } else {
-          return {radius: 10, color: '#ed3131'};
-        }
-      }
-
-      for (let feature of data.features) {
-        let latitude = feature.geometry.coordinates[1];
-        let longitude = feature.geometry.coordinates[0];
-        let magnitude = feature.properties.mag;
-        let info = feature.properties.title;
-        // Latitude and Longitude have to be reversed as GEOjson is in reverse order to leaflet
-        L.circleMarker([latitude, longitude], drawMarker(magnitude)).addTo(map).bindPopup(info)
-
-        console.log(feature);
-      }
-      const list = document.getElementById('earthquake-list');
-      list.innerHTML = ''; // Clear old items before re-adding
-
-      data.features.forEach(quake => {
-        const mag = quake.properties.mag;
-        const place = quake.properties.place;
-        const time = new Date(quake.properties.time).toLocaleTimeString();
-        const url = quake.properties.url;
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.target = '_blank';
-        a.textContent = 'View Details';
-        const li = document.createElement('li');
-        li.textContent = `Magnitude ${mag} — ${place} at ${time}`;
-        li.appendChild(a);
-        list.appendChild(li);
-      });
+      earthquakeData = await response.json();
+      const currentFilter = document.getElementById('filterByMag').value;
+      renderEarthquakes(currentFilter);
     } else {
       throw new Error('Failed to fetch data');
     }
@@ -74,7 +100,20 @@ async function getEarthquakes() {
   }
 }
 
-getEarthquakes()
+// Listen for filter changes and re-render
+document.getElementById('filterByMag').addEventListener('change', (e) => {
+  displayedCount = 10; // Reset displayedCount when filter changes
+  renderEarthquakes(e.target.value);
+});
+
+// "Show More" button event listener
+document.getElementById('show-more-btn').addEventListener('click', () => {
+  displayedCount += 10; // Increase count
+  const currentFilter = document.getElementById('filterByMag').value;
+  renderEarthquakes(currentFilter);
+});
+
+getEarthquakes();
 // refresh data every 2 minutes (120k milliseconds)
 setInterval(getEarthquakes, 120000);
 
