@@ -75,7 +75,7 @@ function renderEarthquakes(filterValue) {
     }
   });
 
-  // Show or hide "Show More" button
+  // Show or hide button
   const showMoreBtn = document.getElementById('show-more-btn');
   if (filteredFeatures.length > displayedCount) {
     showMoreBtn.style.display = 'block';
@@ -100,7 +100,6 @@ async function getEarthquakes() {
   }
 }
 
-// Listen for filter changes and re-render
 document.getElementById('filterByMag').addEventListener('change', (e) => {
   displayedCount = 10; // Reset displayedCount when filter changes
   renderEarthquakes(e.target.value);
