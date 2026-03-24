@@ -135,11 +135,23 @@ function showDetail(quake) {
   const coords = quake.geometry.coordinates;
   let time = new Date(props.time).toLocaleString()
   let html = '';
-  html += `<h2>${props.place}</h2>
-                <p>Detected: ${time}</p>
-                <p>Magnitude: ${props.mag}</p>
-                <p>Depth: ${coords[2]}</p>
-                <a href="${props.url}" target="_blank">View on USGS</a>`;
+  html += `
+    <div class="detail-header">
+      <h2>${props.place}</h2>
+      <p class="detail-time">DETECTED: ${time}</p>
+    </div>
+    <div class="detail-cards">
+      <div class="detail-card">
+        <span class="card-label">MAGNITUDE</span>
+        <span class="card-value">${props.mag.toFixed(2)}</span>
+      </div>
+      <div class="detail-card">
+        <span class="card-label">DEPTH</span>
+        <span class="card-value">${coords[2].toFixed(2)} km</span>
+      </div>
+    </div>
+    <a class="detail-link" href="${props.url}" target="_blank">View on USGS →</a>
+  `;
   panel.innerHTML = html;
 
   panel.classList.remove('hidden');
