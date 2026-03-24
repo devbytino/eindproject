@@ -64,14 +64,8 @@ function renderEarthquakes(filterValue) {
       const place = feature.properties.place;
       const time = new Date(feature.properties.time).toLocaleTimeString();
       const url = feature.properties.url;
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.target = '_blank';
-      a.textContent = 'View Details';
       const li = document.createElement('li');
       li.textContent = `Magnitude ${mag} — ${place} at ${time} `;
-      li.appendChild(a);
       li.style.cursor = 'pointer';
       li.addEventListener('click', () => showDetail(feature));
       list.appendChild(li);
