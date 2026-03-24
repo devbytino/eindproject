@@ -54,7 +54,8 @@ function renderEarthquakes(filterValue) {
     // Add circle markers to map group (all filtered markers on map)
     L.circleMarker([latitude, longitude], drawMarker(magnitude))
       .addTo(earthquakeMarkers)
-      .bindPopup(info);
+      .bindPopup(info)
+      .on('click', () => showDetail(feature));
 
     // Only add to the list if within the displayedCount
     if (index < displayedCount) {
@@ -71,6 +72,8 @@ function renderEarthquakes(filterValue) {
       const li = document.createElement('li');
       li.textContent = `Magnitude ${mag} — ${place} at ${time} `;
       li.appendChild(a);
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', () => showDetail(feature));
       list.appendChild(li);
     }
   });
@@ -89,7 +92,9 @@ async function getEarthquakes() {
   try {
     const response = await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson');
     if (response.ok) {
+
       earthquakeData = await response.json();
+      console.log('Earthquake Data:', earthquakeData);
       const currentFilter = document.getElementById('filterByMag').value;
       renderEarthquakes(currentFilter);
     } else {
@@ -123,3 +128,19 @@ document.getElementById("darkBtn").addEventListener("click", () => {
   currentTileLayer = L.tileLayer(isDark ? darkTiles : lightTiles).addTo(map);
   document.body.classList.toggle("dark-mode", isDark);
 });
+
+function showDetail(quake) {
+  const panel = document.getElementById('details-panel');
+  const props = quake.properties;
+  const coords = quake.geometry.coordinates;
+  let time = new Date(props.time).toLocaleString()
+  let html = '';
+  html += `<h2>${props.place}</h2>
+                <p>Detected: ${time}</p>
+                <p>Magnitude: ${props.mag}</p>
+                <p>Depth: ${coords[2]}</p>
+                <a href="${props.url}" target="_blank">View on USGS</a>`;
+  panel.innerHTML = html;
+
+  panel.classList.remove('hidden');
+}
