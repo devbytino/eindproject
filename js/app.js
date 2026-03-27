@@ -127,6 +127,13 @@ function showDetail(quake) {
   const panel = document.getElementById('details-panel');
   const props = quake.properties;
   const coords = quake.geometry.coordinates;
+  const maxDepth = 700;
+  const depthPercent = Math.min((coords[2] / maxDepth) * 100, 100);
+  const depthLabel = coords[2] < 70 ? 'SHALLOW EVENT'
+      : coords[2] < 300 ? 'INTERMEDIATE EVENT'
+      : 'DEEP FOCUS EVENT';
+  const threat = props.tsunami === 1 ? 'THREAT DETECTED' : 'NO_THREAT';
+  const threatClass = props.tsunami === 1 ? 'threat' : 'no-threat';
   let time = new Date(props.time).toLocaleString()
   let html = '';
   html += `
@@ -139,10 +146,23 @@ function showDetail(quake) {
         <span class="card-label">MAGNITUDE</span>
         <span class="card-value">${props.mag.toFixed(2)}</span>
       </div>
-      <div class="detail-card">
-        <span class="card-label">DEPTH PROFILE</span>
-        <span class="card-value">${coords[2].toFixed(2)} km</span>
+      <div class="depth-profile">
+        <div class="depth-info">
+          <span class="card-label">DEPTH PROFILE</span>
+          <span class="depth-value">${coords[2].toFixed(2)} km</span>
+        </div>
+        <div class="depth-visual">
+          <div class="depth-line"></div>
+          <div class="depth-dot" style="left: ${depthPercent}%"></div>
+        </div>
+        <span class="depth-label">${depthLabel}</span>
       </div>
+    </div>
+    <div class="detail-card">
+        <span class="card-label">TSUNAMI EVALUATION</span>
+           <div class="tsunami-info">
+            <span class="tsunami-threat ${threatClass}">${threat}</span>
+           </div>
     </div>
     <a class="detail-link" href="${props.url}" target="_blank">View on USGS →</a>
   `;
