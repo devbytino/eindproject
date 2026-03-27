@@ -110,6 +110,7 @@ section {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  height: 50vh;
 }
 
 #map {
@@ -171,6 +172,8 @@ select {
 .content {
   padding: 0 2rem;
   width: 35%;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .content h2 {
@@ -206,7 +209,22 @@ select {
   display: flex;
   flex-direction: column;
 }
+/* Slim down the scroll bar size*/
+.content::-webkit-scrollbar {
+  width: 4px;
+}
 
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
+
+body.dark-mode .content::-webkit-scrollbar-thumb {
+  background-color: #444;
+}
 #show-more-btn {
   max-width: 600px;
   padding: 1rem;
@@ -230,6 +248,7 @@ body.dark-mode #show-more-btn:hover {
   flex: 1;
   padding: 2rem;
   border-left: 1px solid #ccc;
+
 }
 
 body.dark-mode .earthquake-details {

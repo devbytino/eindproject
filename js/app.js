@@ -140,7 +140,7 @@ function showDetail(quake) {
         <span class="card-value">${props.mag.toFixed(2)}</span>
       </div>
       <div class="detail-card">
-        <span class="card-label">DEPTH</span>
+        <span class="card-label">DEPTH PROFILE</span>
         <span class="card-value">${coords[2].toFixed(2)} km</span>
       </div>
     </div>
@@ -149,4 +149,5 @@ function showDetail(quake) {
   panel.innerHTML = html;
 
   panel.classList.remove('hidden');
+  map.flyTo([coords[1], coords[0]], 6);
 }
