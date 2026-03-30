@@ -157,12 +157,29 @@ function showDetail(quake) {
         </div>
         <span class="depth-label">${depthLabel}</span>
       </div>
-    </div>
-    <div class="detail-card">
-        <span class="card-label">TSUNAMI EVALUATION</span>
-           <div class="tsunami-info">
+      <div class="detail-card">
+         <span class="card-label">TSUNAMI EVALUATION</span>
+          <div class="tsunami-info">
             <span class="tsunami-threat ${threatClass}">${threat}</span>
-           </div>
+          </div>
+      </div>
+      <div class="detail-card">
+        <span class="card-label">POPULATION EXPOSURE</span>
+        <div class="population-info">
+            <span class="info-label">
+                <span class="">RADIUS 50KM</span>
+                <span class="info-value">0</span>
+            </span>
+            <span class="info-label">
+                <span class="">RADIUS 200KM</span>
+                <span class="info-value">0</span>
+            </span>
+            <span class="info-label">
+                <span class="">TOTAL ALERT AREA</span>
+                <span class="info-value">0</span>
+            </span>
+        </div>
+      </div>
     </div>
     <a class="detail-link" href="${props.url}" target="_blank">View on USGS →</a>
   `;

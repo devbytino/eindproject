@@ -257,7 +257,7 @@ body.dark-mode .earthquake-details {
 
 .detail-header h2 {
   font-family: Space Grotesk, serif;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
   line-height: 1.1;
@@ -272,9 +272,10 @@ body.dark-mode .earthquake-details {
 }
 
 .detail-cards {
-  display: flex;
+  display: grid;
   gap: 1rem;
   margin: 1.5rem 0;
+  grid-template-columns: 1fr 1fr;
 }
 
 .detail-card {
@@ -391,6 +392,17 @@ body.dark-mode .depth-line {
 
 .tsunami-threat.no-threat {
   color: #60b84a;
+}
+.population-info {
+  display: flex;
+  flex-direction: column;
+}
+.info-label {
+  font-family: Iosevka Charon Mono, monospace;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
 }
 /* ==========================================================================
    Helper classes
