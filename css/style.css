@@ -30,6 +30,10 @@ body.dark-mode {
   color: #e0e0e0;
 }
 
+body.dark-mode footer {
+  border-top-color: #444;
+}
+
 body.dark-mode button {
   background: #2d2d44;
   color: #e0e0e0;
@@ -208,6 +212,27 @@ select {
 .container {
   display: flex;
   flex-direction: column;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-top: 1px solid #ccc;
+  font-family: Iosevka Charon Mono, monospace;
+  font-size: 0.8rem;
+}
+
+footer a {
+  text-decoration: underline;
+  color: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+footer a:hover {
+  text-decoration: none;
 }
 /* Slim down the scroll bar size*/
 .content::-webkit-scrollbar {
