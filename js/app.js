@@ -186,5 +186,6 @@ function showDetail(quake) {
   panel.innerHTML = html;
 
   panel.classList.remove('hidden');
+  panel.scrollIntoView({behavior: 'smooth'});
   map.flyTo([coords[1], coords[0]], 6);
 }

@@ -112,9 +112,17 @@ textarea {
    ========================================================================== */
 section {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  height: 50vh;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+}
+
+@media only screen and (min-width: 48em) {
+  section {
+    flex-direction: row;
+    align-items: flex-start;
+    height: 50vh;
+  }
 }
 
 #map {
@@ -128,7 +136,13 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem 0 2rem;
+  padding: 1rem 1rem 0 1rem;
+}
+
+@media only screen and (min-width: 48em) {
+  header {
+    padding: 1rem 2rem 0 2rem;
+  }
 }
 
 header h1 {
@@ -174,10 +188,19 @@ select {
   background-color: #f0f0f0;
 }
 .content {
-  padding: 0 2rem;
-  width: 35%;
-  overflow-y: scroll;
-  height: 100%;
+  padding: 0 1rem;
+  width: 100%;
+  overflow-y: visible;
+  height: auto;
+}
+
+@media only screen and (min-width: 48em) {
+  .content {
+    padding: 0 2rem;
+    width: 35%;
+    overflow-y: scroll;
+    height: 100%;
+  }
 }
 
 .content h2 {
@@ -216,12 +239,23 @@ select {
 
 footer {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   border-top: 1px solid #ccc;
   font-family: Iosevka Charon Mono, monospace;
   font-size: 0.8rem;
+  text-align: center;
+}
+
+@media only screen and (min-width: 35em) {
+  footer {
+    flex-direction: row;
+    gap: 0;
+    text-align: left;
+  }
 }
 
 footer a {
@@ -271,21 +305,43 @@ body.dark-mode #show-more-btn:hover {
 
 .earthquake-details {
   flex: 1;
-  padding: 2rem;
-  border-left: 1px solid #ccc;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  border-left: none;
+}
 
+@media only screen and (min-width: 48em) {
+  .earthquake-details {
+    padding: 2rem;
+    border-top: none;
+    border-left: 1px solid #ccc;
+  }
 }
 
 body.dark-mode .earthquake-details {
-  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+  border-left: none;
+}
+
+@media only screen and (min-width: 48em) {
+  body.dark-mode .earthquake-details {
+    border-top: none;
+    border-left: 1px solid #333;
+  }
 }
 
 .detail-header h2 {
   font-family: Space Grotesk, serif;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
   line-height: 1.1;
+}
+
+@media only screen and (min-width: 48em) {
+  .detail-header h2 {
+    font-size: 3rem;
+  }
 }
 
 .detail-time {
@@ -300,7 +356,13 @@ body.dark-mode .earthquake-details {
   display: grid;
   gap: 1rem;
   margin: 1.5rem 0;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 35em) {
+  .detail-cards {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .detail-card {
